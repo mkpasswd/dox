@@ -1,6 +1,6 @@
 ---
 ## documentclass: article
-##pandoc README.md -o REDME.pdf
+##pandoc README.md -o README.pdf
 title: dox
 abstract: "Docker API proxy : allow filtered (regexp) access to Docker API thru docker.sock"
 geometry: a4paper
