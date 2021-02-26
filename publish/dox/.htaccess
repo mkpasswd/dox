@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  ## RewriteBase /competences/
+  RewriteRule ^dox\.php - [L]
+  RewriteRule (.*) dox.php [L]
+</IfModule>
+

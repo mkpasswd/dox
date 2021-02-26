@@ -1,0 +1,183 @@
+#!/bin/bash
+BDIR='/rrs.fs/apps/dockerlogs/bin'
+CIDR='[A-Za-z0-9_-]+'
+##ALLOWED=( '^/containers/json'
+##	'^/version$'
+##	"^/containers/$CIDR/logs"
+##	)
+FREGEXP="$BDIR/dox-regexp.txt"
+FOUT=''
+VERBOSE=''
+CTEXT=''
+HTTP=''
+HEADOK=''
+TEST=''
+SOCK='/var/run/docker.sock'
+HOST='localhost'
+CURL='/usr/bin/curl'
+DEMUX="$BDIR/demux"
+URL='http://'
+
+## =======================================
+## Initialisation tableau regexp
+init () {
+	## local DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+	## local fn="$DIR/$FREGEXP"
+	ALLOWED=()
+	STREAMED=()
+	while read -r reg stream remainder; do
+		if [ -n "$VERBOSE" ] ; then echo "!! Allowed regexp : '$reg'"; fi
+		ALLOWED+=("$reg")
+		if [ "$stream" == "stream" ] ; then 
+			if [ -n "$VERBOSE" ] ; then echo "!! + streamed option"; fi
+			STREAMED+=("$reg")
+			fi
+	done <$FREGEXP
+	}
+
+## =======================================
+## Fonction de verif autorisation accès WS
+## basé sur des regexp
+checka () {
+	local ws="$1"
+	for reg in ${ALLOWED[@]}; do
+		if [[ "$ws" =~ $reg ]] ; then return 0; fi
+	done
+	return 69
+	}
+## =======================================
+## Fonction de verif si format stream
+isstream () {
+	local ws="$1"
+	for reg in ${STREAMED[@]}; do
+		if [[ "$ws" =~ $reg ]] ; then return 0; fi
+	done
+	return 70
+	}	
+
+## =======================================
+jsonhead () {
+	if [ -n "$HTTP" -a -z "$HEADOK" ] ; then 
+		echo "Content-type: Application/json"
+		HEADOK='X'
+		fi
+	}
+
+txthead () {
+	if [ -n "$HTTP" -a -z "$HEADOK" ] ; then 
+		echo "Content-type: text/plain"
+		HEADOK='X'
+		fi
+	}
+
+msgtxt () { txthead ; echo "$1" ; }
+
+jsonout () { jsonhead ; echo "$1" ; }
+
+## =======================================
+##  main, analyse des paramètres
+
+while getopts 'vhH:s:u:O:Ctx' OPTION; do
+	case "$OPTION" in
+	v)
+	msgtxt '!! Verbose ON'
+	VERBOSE='x'
+	;;
+
+	h)
+	msgtxt "!! dox [-h] [-x (add HTTP headers)] [-v] [t (test availability)][-C (clear text message) [-H $HOST] [-s $SOCK] [-u $URL] <path>"
+	exit
+	;;
+
+	O)
+	FOUT="$OPTARG"
+	if [ -n "$VERBOSE" ] ; then msgtxt "!! FOUT=$FOUT"; fi
+	;;
+		
+	u)
+	URL="$OPTARG"
+	if [ -n "$VERBOSE" ] ; then msgtxt "!! URL=$URL"; fi
+	;;
+		
+	C)
+	CTEXT='X'
+	if [ -n "$VERBOSE" ] ; then msgtxt "!! Clear text messages ON"; fi
+	;;
+		
+	x)
+	HTTP='X'
+	if [ -n "$VERBOSE" ] ; then msgtxt "!! Add HTTP headers"; fi
+	;;
+		
+	t)
+	TEST='X'
+	if [ -n "$VERBOSE" ] ; then msgtxt "!! Test availability ON"; fi
+	;;
+		
+	H)
+	HOST="$OPTARG"
+	if [ -n "$VERBOSE" ] ; then msgtxt "!! HOST=$HOST"; fi
+	;;
+		
+	s)
+	SOCK="$OPTARG"
+	if [ -n "$VERBOSE" ] ; then msgtxt "!! SOCK=$SOCK"; fi
+	;;
+		
+	?)
+ 	if [ -n "$CTEXT" ] ; then msgtxt "?? Unknown $OPTION option...";
+	else jsonout ; echo '{"message":"Invalid wrapper parameter"}'; fi
+	exit 110;
+	esac
+done
+if [ -n "$VERBOSE" ] ; then CTEXT='X'; fi
+shift "$(($OPTIND -1))"
+PATH="$1"
+if [ -z "$1" ] ; then
+ 	if [ -n "$CTEXT" ] ; then msgtxt "?? Missing WS path...";
+	else jsonout '{"message":"Missing WS path"}'; fi
+	exit 111;
+	fi
+## =======================================
+## main, on fait le boulot
+init
+if [ -n "$VERBOSE" ] ; then msgtxt "!! PATH: $PATH"; fi
+### Mode test (le WS est-il autorisé ?)
+checka "$PATH"
+checkws=$?
+if [ -n "$TEST" -a $checkws -eq 0 ] ; then
+	if [ -n "$VERBOSE" -o -n "$CTEXT" ] ; then msgtxt "!! WS allowed";
+	else jsonout '{"message":"WS allowed"}'; fi
+		exit 0;
+	fi
+### verification validité (systématique)
+if [ ! $checkws -eq 0 ] ; then
+	if [ -n "$VERBOSE" -o -n "$CTEXT" ] ; then msgtxt "!! WS $ws NOT allowed";
+	else jsonout '{"message":"WS NOT allowed"}'; fi
+	exit 69;	 
+fi
+## https://unix.stackexchange.com/questions/444946/how-can-we-run-a-command-stored-in-a-variable
+output=`/bin/mktemp -q -t dlog-XXXX`
+## echo output=$output
+command="$CURL -o $output -s --show-error --fail --unix-socket \"$SOCK\" \"$URL$HOST$PATH\""
+if [ -n "$VERBOSE" ] ; then msgtxt "!! command=$command"; fi
+## manque l'option --fail-with-body dispo dans un version plus récente de curl
+if $CURL -s -o $output --fail --unix-socket "$SOCK" "$URL$HOST$PATH" 2>&1
+then 
+	if [ -n "$FOUT" ] ; then
+		if isstream "$PATH" ; then $DEMUX -f $output -O "$FOUT"
+		else /bin/cp $output "$FOUT" >/dev/null 2>&1 ; fi
+	else 
+		if isstream "$PATH" ; then txthead ; $DEMUX -f $output
+		else jsonhead ; /bin/cat $output ; fi
+	fi	
+	/bin/rm $output
+	exit 0
+fi
+jsonout '{"message":"Curl call/Docker API error"}'
+## echo -n '{"message":"
+## /bin/cat $output
+## echo '"}'
+/bin/rm $output
+exit 22
+

@@ -1,0 +1,8 @@
+^/containers/json
+^/volumes$
+^/volumes?filters=$
+^/version$
+^/containers/[A-Za-z0-9_-\.]+/json$
+^/containers/[A-Za-z0-9_-\.]+/stats$
+^/containers/[A-Za-z0-9_-\.]+/top
+^/containers/[A-Za-z0-9_-\.]+/logs	stream
