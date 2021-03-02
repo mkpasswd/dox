@@ -1,0 +1,66 @@
+body {
+	/* background-color: white;
+	font-family: sans-serif;
+	color: black */
+	padding: 5px 5px 5px 5px;
+	} 
+
+TABLE.DEFSHOW {border-collapse: collapse;
+	margin-right: auto;
+	margin-left: auto;}
+TABLE.DEFSHOW THEAD {background-color: yellow}
+TABLE.DEFSHOW TD, TABLE.DEFSHOW TH {border: 1px solid silver}
+TABLE.DEFSHOW TD.name {text-align: right; font-weight: bold;}
+
+DIV.BBUNCH {
+	display: block;
+	border-radius: 10px;
+	margin-right: 25%;
+	text-align: center;
+	margin-left: 25%;
+	background-color: silver;
+	padding: 10px 10px 10px 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	}
+
+DIV.toptitle { min-height: 104px ;}
+H1.toptitle {
+	font-family: serif;
+	/* width: 70%;
+	font-size: 60px;
+	min-height: 80px;
+	background-color: #9E9788;
+	text-align: left;
+	padding: 20px 5px 5px 5px; */
+	}
+
+DIV.toptitle IMG { float: left; /* margin: 2px 5px 2px 5px; */  }
+
+.ui-icon { display: inline-block;}
+
+FIELDSET.fset LABEL, FIELDSET.fset LABEL + * {
+	display: inline-block;
+	}
+
+FIELDSET.fset LABEL + * {
+	max-width: 75%;
+	}
+
+FIELDSET.fset LABEL + * LABEL {
+	border-bottom: 1px dotted silver;
+	}
+
+FIELDSET.fset > LABEL {
+	margin-left: 10px; 
+	margin-bottom: 10px;
+	margin-right: 10px;
+	text-align: right;
+	vertical-align: top;
+	width: 20%;
+/*	height: 100%; pourri dans chrome */
+	font-weight: bold;
+/*	float: left; */
+/*	display: inline-block; */
+	}
+
