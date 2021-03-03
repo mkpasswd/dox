@@ -42,6 +42,7 @@ checka () {
 	local ws="$1"
 	for reg in ${ALLOWED[@]}; do
 		if [[ "$ws" =~ $reg ]] ; then return 0; fi
+		if [ -n "$VERBOSE" -a -n "$TEST" ] ; then echo "!! $reg refused"; fi
 	done
 	return 69
 	}

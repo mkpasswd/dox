@@ -1,8 +1,11 @@
 ^/containers/json
+^/images/json
+^/images/[A-Za-z0-9_.-]+/json
 ^/volumes$
-^/volumes?filters=$
+^/volumes/[A-Za-z0-9_.-]+
+^/volumes\?filters=
 ^/version$
-^/containers/[A-Za-z0-9_-\.]+/json$
-^/containers/[A-Za-z0-9_-\.]+/stats$
-^/containers/[A-Za-z0-9_-\.]+/top
-^/containers/[A-Za-z0-9_-\.]+/logs	stream
+^/containers/[A-Za-z0-9_.-]+/json
+^/containers/[A-Za-z0-9_.-]+/stats$
+^/containers/[A-Za-z0-9_.-]+/top
+^/containers/[A-Za-z0-9_.-]+/logs	stream
