@@ -4,29 +4,40 @@ include 'App.php';
 $app->header('Containers');
 ?>
 <DIV class="BBUNCH">
-<Button id="compact">Compact</button>
-<Button id="extended">Extended</button>
+<Button id="reload">Refresh</button>
 <input type="checkbox" id="all">&nbsp;<label for="all">All</label> 
+<input type="checkbox" id="Xview">&nbsp;<label for="Xview">Extended view</label> 
 </DIV>
 
 <!-- ============================ -->
 <!-- GO TEMPLATES =============== -->
 <!-- as browser may reorganize elements when HTML syntax is inappropriate
-(ie: firefox tables), GO templates comment should go in HTML comments dor safety reasons -->
+(ie: firefox tables), GO templates comment should go in HTML comments for safety reasons -->
+
+<!-- =========== -->
 <template id="v1">
 	<TABLE class="DEFSHOW">
-	<THEAD><TR><TH>Names</TH><TH>Image</TH><TH>State</TH><TH>Ports</TH><TH>Mounts</TH></TR></THEAD>
+	<THEAD><TR><TH class="TSORT">Names</TH><TH class="TSORT X">Image</TH><TH class="TSORT">State</TH><TH class="X">Status</TH><TH class="X">IP</TH><TH class="TSORT">Ports</TH><TH>Mounts</TH></TR></THEAD>
 	<TBODY>
 	<!-- {{range $cN, $c := .}} -->
 	<TR>
-	<TD class="name"><A href="./container?id={{$c.Id}}">
+	<TD class="name" data-sort="{{ index $c.Names 0 }}"><A href="./container?id={{$c.Id}}">
 	{{range $name := $c.Names }}
 	{{ $name }}
 	{{end}}
 	</A></TD>
-	<TD><A href="./image.php?id={{ $c.ImageID }}">{{ printf "%.20s" $c.Image }}</A></TD>
-	<TD>{{ $c.State }}</TD>
-	<TD>
+	<TD class="X" data-sort="{{ $c.Image }}"><A href="./image.php?id={{ $c.ImageID }}">{{ printf "%.20s" $c.Image }}</A></TD>
+	<TD data-sort="{{ $c.State }}">{{ $c.State }}</TD>
+	<TD class="X">{{ $c.Status }}</TD>
+	<TD class="X">{{ $c.NetworkSettings.Networks.bridge.IPAddress }}</TD>
+	<!--
+	{{ if $c.Ports }}
+	{{ $firstPort :=index $c.Ports 0 }}
+	-->
+	<TD data-sort="{{ $firstPort.PublicPort }}">
+	<!-- {{else}} -->
+	<TD data-sort="0">
+	<!-- {{ end }} -->
 	{{range $port := $c.Ports }}
 	{{ $port.PublicPort }} &larr; {{ $port.PrivatePort }}<br>
 	{{end}}
@@ -38,36 +49,6 @@ $app->header('Containers');
 		{{else}}
 		<SPAN title="{{ $mount.Destination }}">{{ printf "%.20s" $mount.Name }}</SPAN><br>
 		{{end}}
-	{{end}}
-	</TD>
-	</TR>
-	<!-- {{end}} -->
-	</TBODY>
-	</TABLE>
-</template>
-<!-- =========== -->
-<template id="v2">
-	<TABLE class="DEFSHOW">
-	<THEAD><TR><TH>Names</TH><TH>State</TH><TH>Status</TH><TH>IP</TH><TH>Ports</TH><TH>Mounts</TH></TR></THEAD>
-	<TBODY>
-	<!-- {{range $cN, $c := .}} -->
-	<TR>
-	<TD class="name"><A href="./container?id={{$c.Id}}">
-	{{range $name := $c.Names }}
-	{{ $name }}
-	{{end}}
-	</A></TD>
-	<TD>{{ $c.State }}</TD>
-	<TD>{{ $c.Status }}</TD>
-	<TD>{{ $c.NetworkSettings.Networks.bridge.IPAddress }}</TD>
-	<TD>
-	{{range $port := $c.Ports }}
-	{{ $port.PublicPort }} &larr; {{ $port.PrivatePort }}<br>
-	{{end}}
-	</TD>
-	<TD>
-	{{range $mount := $c.Mounts }}
-	<SPAN title="{{ $mount.Destination }}">{{ $mount.Name }}</SPAN><br>
 	{{end}}
 	</TD>
 	</TR>
@@ -89,13 +70,19 @@ function render(view) {
 		//ep='?filters='+encodeURIComponent('{"status": ["running","exited,"paused"]}');
 		// ep='?filters={"status": ["running","exited,"paused"]}');
 		ep='?all=true';
-	ttify('/containers/json'+ep,view,'#insertHere');}
+	ttify('/containers/json'+ep,view,'#insertHere');
+	// tsort('TABLE','Names'); a coller en fin de callback, trop tôt ici
+	}
 	
 $(function() {
-	console.log('Init...');
+	// console.log('Init...');
 
-	$('#compact').click(function() {render('#v1');});
-	$('#extended').click(function() {render('#v2');});
+	$('#all,#reload').click(function() {render('#v1');});
+	$('#Xview').click(function() {
+		// console.log('Xview');
+		if($(this).prop('checked')) $('.X').show();
+		else $('.X').hide();
+		});
 
 	render('#v1');
 	});

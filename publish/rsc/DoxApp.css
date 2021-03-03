@@ -5,12 +5,14 @@ body {
 	padding: 5px 5px 5px 5px;
 	} 
 
+TABLE.DEFSHOW .X {display: none;} 
 TABLE.DEFSHOW {border-collapse: collapse;
 	margin-right: auto;
 	margin-left: auto;}
 TABLE.DEFSHOW THEAD {background-color: yellow}
 TABLE.DEFSHOW TD, TABLE.DEFSHOW TH {border: 1px solid silver}
-TABLE.DEFSHOW TD.name {text-align: right; font-weight: bold;}
+TABLE.DEFSHOW TD.name {text-align: right; font-weight: bold; padding-right: 10px;}
+TABLE.DEFSHOW TH.TSORT {background-color: rgb(100,100,100,.2);}
 
 DIV.BBUNCH {
 	display: block;
