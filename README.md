@@ -7,13 +7,16 @@ geometry: a4paper
 header-includes: |
 	\usepackage{fourier}
 ---
-# dox
+# dox - 
 
 Docker API proxy : allow filtered (regexp) access to Docker API thru docker.sock
++ GUI with HTML embedded GO templates
 
 DRAFT - incomplete doc
 
-## Requisites
+## DOX : Docker API Proxy
+
+### Requisites
 
 * a linux server
 * an apache server with php enabled
@@ -22,7 +25,7 @@ DRAFT - incomplete doc
 * root access
 * should I mention a running dockerd
 
-## Installation example
+### Installation example
 
 * `git clone` to `/opt/dox`
 * apache : alias `/dox/` (URL) to `/opt/dox/publish/dox/` (FS)
@@ -37,7 +40,7 @@ DRAFT - incomplete doc
 * change `BDIR` value in `/opt/dox/bin/dox` to match installation directory
 * add/remove regexps in `dox-regexp.txt` to allow/disallow docker WS accesses
 
-## Request processing
+### Request processing
 
 Supposing the request is to be sent at https://docker-host.bzh/dox, like in https://docker-host.bzh/dox/version
 * the apache `.htaccess` rewrite the request to `dox.php`
@@ -47,8 +50,14 @@ Supposing the request is to be sent at https://docker-host.bzh/dox, like in http
 * if yes call the acual Docker WS
 * if the WS is tagged as "stream" it uses the demux tool to output a plain text file (for logs for example)
 
-## Particularity
+### Particularity
 
 There are a few differences between the genuine API and the proxied ones.
+
+## GUI
+
+* lightweight PHP app structure with a DoxApp application singleton
+* inline GO template for JSON to HTML conversion
+* same requisites as previous + golang
 
 
