@@ -21,7 +21,7 @@ $app->header('Containers');
 	<TBODY>
 	<!-- {{range $cN, $c := .}} -->
 	<TR>
-	<TD class="name" data-sort="{{ index $c.Names 0 }}"><A href="./container?id={{$c.Id}}">
+	<TD class="name" data-sort="{{ index $c.Names 0 }}"><A href="./container.php?id={{$c.Id}}">
 	{{range $name := $c.Names }}
 	{{ $name }}
 	{{end}}
@@ -59,6 +59,7 @@ $app->header('Containers');
 
 <!-- ============================ -->
 <!-- RENDER ZONE ================ -->
+<BR>
 <div id="insertHere"></div>
 
 <!-- ============================ -->
@@ -70,19 +71,18 @@ function render(view) {
 		//ep='?filters='+encodeURIComponent('{"status": ["running","exited,"paused"]}');
 		// ep='?filters={"status": ["running","exited,"paused"]}');
 		ep='?all=true';
-	ttify('/containers/json'+ep,view,'#insertHere');
-	// tsort('TABLE','Names'); a coller en fin de callback, trop tôt ici
+	ttify('/containers/json'+ep,view,'#insertHere',dealXview);
 	}
+
+function dealXview() {
+	if($('#Xview').prop('checked')) $('.X').show();
+	else $('.X').hide();
+	}
+
 	
 $(function() {
-	// console.log('Init...');
-
 	$('#all,#reload').click(function() {render('#v1');});
-	$('#Xview').click(function() {
-		// console.log('Xview');
-		if($(this).prop('checked')) $('.X').show();
-		else $('.X').hide();
-		});
+	$('#Xview').click(function() {dealXview();});
 
 	render('#v1');
 	});

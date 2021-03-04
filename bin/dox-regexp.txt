@@ -1,6 +1,6 @@
 ^/containers/json
 ^/images/json
-^/images/[A-Za-z0-9_.-]+/json
+^/images/[A-Za-z0-9:_.-]+/json
 ^/volumes$
 ^/volumes/[A-Za-z0-9_.-]+
 ^/volumes\?filters=

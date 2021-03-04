@@ -1,6 +1,9 @@
 <?
+define('DELTMP',true);
+
 include('mini.inc.php');
 include('T.class.php');
+
 
 //on passe tout en base64 sinon ça va être la merde pour dépatouiller l'URL du WS
 $path=base64_decode(trim(T::gp('path')));
@@ -32,6 +35,8 @@ if($ret==0) {
 	echo implode("\n",$tab);
 	//gestion d'erreur à rajouter ici
 	};
-if(file_exists($ftpl)) unlink($ftpl);
-if(file_exists($fjson)) unlink($fjson);
+if(DELTMP) {
+	if(file_exists($ftpl)) unlink($ftpl);
+	if(file_exists($fjson)) unlink($fjson);
+	};
 ?>
