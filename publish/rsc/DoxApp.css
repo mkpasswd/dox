@@ -5,6 +5,14 @@ body {
 	padding: 5px 5px 5px 5px;
 	} 
 
+TEXTAREA.POP {
+	background-color: Azure;
+	margin-left: 2%;
+	width: 95% ;
+	/* margin-right: 10%; */
+	min-height: 300px;
+	}
+
 TABLE.DEFSHOW .X {display: none;} 
 TABLE.DEFSHOW {border-collapse: collapse;
 	margin-right: auto;
@@ -14,6 +22,10 @@ TABLE.DEFSHOW TD, TABLE.DEFSHOW TH {border: 1px solid silver}
 TABLE.DEFSHOW TD.name {text-align: right; font-weight: bold; padding-right: 10px;}
 TABLE.DEFSHOW TH.TSORT {background-color: rgb(100,100,100,.2);}
 
+BUTTON.MM { background-color: rgb(100,100,100,.2);
+	font-style: italic;
+	}
+	
 DIV.BBUNCH {
 	display: block;
 	border-radius: 10px;
@@ -41,6 +53,10 @@ DIV.toptitle IMG { float: left; /* margin: 2px 5px 2px 5px; */  }
 
 .ui-icon { display: inline-block;}
 
+FIELDSET.fset {
+	margin-left: 20%;
+	margin-right: 20%;
+	}
 FIELDSET.fset LABEL, FIELDSET.fset LABEL + * {
 	display: inline-block;
 	}

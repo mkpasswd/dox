@@ -1,13 +1,24 @@
 <?php
 include('./mini.inc.php');
-include 'App.php';
-$app->header('Container');
+include('App.php');
+include('T.class.php');
+
+$title=T::gp('title','&lt;unset&gt;');
+$app->header("Container $title");
 ?>
 <DIV class="BBUNCH">
-<Button id="Inspect">Inspect</button>
-<Button id="Stats">Stats</button>
-<Button id="Top">Top</button>
-<Button id="Logs">Logs</button>
+<Button id="inspect">Inspect</button>
+<!-- <Button id="stats">Stats</button> -->
+<Button id="top">Top</button>
+<Button id="logs">Logs</button>
+<Select id="tlog">
+<option value="?stderr=true&stdout=true&tail=100">last 100</option>
+<option value="?stderr=true&stdout=true">stderr+stdout</option>
+<option value="?stderr=true">stderr</option>
+<option value="?stdout=true">stdout</option>
+</select>
+<Button class="LINK MM" data-dest="./containers.php">Containers</button>
+<Button class="LINK MM" data-dest="./images.php">Images</button>
 <!-- <input type="checkbox" id="all">&nbsp;<label for="all">All</label> 
 <input type="checkbox" id="Xview">&nbsp;<label for="Xview">Extended view</label>-->
 </DIV>
@@ -33,23 +44,36 @@ $app->header('Container');
 		{{end}}
 	{{end}}
 	</DIV><BR>
-	<LABEL></LABEL><BR>
-	<LABEL></LABEL><BR>
-	<LABEL></LABEL><BR>
-	<LABEL></LABEL><BR>
-	<LABEL></LABEL><BR>
 	</FIELDSET>
+</template>
+<!-- =========== -->
+<template id="topView">
+	<TABLE class="DEFSHOW" id="{{RandId}}">
+	<THEAD><TR>
+	<!-- {{range $th := .Titles }} -->
+		<TH class="TSORT">{{ $th }}</TH>
+	<!-- {{end}} -->
+	</TR></THEAD>
+	<TBODY>
+	<!-- {{range $tr := .Processes }} -->
+		<TR>
+		<!-- {{range $td := $tr }} -->
+		<TD>{{ $td }}</TD>
+		<!-- {{end}} -->
+		</TR>	
+	<!-- {{end}} -->
+	</TBODY>
+	</TABLE>
 </template>
 
 <!-- ============================ -->
 <!-- RENDER ZONE ================ -->
 <BR>
-<div id="insertHere"></div>
+<div id="insertHere" style="height: 100%"></div>
 
 <!-- ============================ -->
 <!-- CONTROLER ================== -->
 <SCRIPT>
-const queryString=window.location.search;
 const urlParams=new URLSearchParams(window.location.search);
 var cid=urlParams.get('id');
 
@@ -57,9 +81,26 @@ function render(ws,view) {
 	ttify(ws,view,'#insertHere');
 	}
 
+/*
+function tafit() {
+	var el=document.getElementById('inspect');
+	var rect = el.getBoundingClientRect();
+	console.log('inspect : ');console.log(rect);
+	console.log($('#inspect').offset());
+	el=document.getElementById('insertHere');
+	rect = el.getBoundingClientRect();
+	console.log('insertHere');console.log(rect);
+	console.log('=============');
+	console.log($('#insertHere').offset());
+	console.log($('#insertHere FIELDSET').offset());
+	}
+*/
+
 $(function() {	
+	$('#logs').click(function() {dcall('/containers/'+cid+'/logs'+$('#tlog').val(),'#insertHere');});
 	$('#inspect').click(function() {render('/containers/'+cid+'/json','#inspectView');});
-	
+	$('#top').click(function() {render('/containers/'+cid+'/top','#topView');});
+
 	render('/containers/'+cid+'/json','#inspectView');
 
 	});

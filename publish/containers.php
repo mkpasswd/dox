@@ -16,12 +16,12 @@ $app->header('Containers');
 
 <!-- =========== -->
 <template id="v1">
-	<TABLE class="DEFSHOW">
+	<TABLE class="DEFSHOW" id="{{RandId}}">
 	<THEAD><TR><TH class="TSORT">Names</TH><TH class="TSORT X">Image</TH><TH class="TSORT">State</TH><TH class="X">Status</TH><TH class="X">IP</TH><TH class="TSORT">Ports</TH><TH>Mounts</TH></TR></THEAD>
 	<TBODY>
 	<!-- {{range $cN, $c := .}} -->
 	<TR>
-	<TD class="name" data-sort="{{ index $c.Names 0 }}"><A href="./container.php?id={{$c.Id}}">
+	<TD class="name" data-sort="{{ index $c.Names 0 }}"><A href="./container.php?id={{$c.Id}}&title={{index $c.Names 0}}">
 	{{range $name := $c.Names }}
 	{{ $name }}
 	{{end}}

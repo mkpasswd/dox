@@ -44,6 +44,8 @@ $NOJS=(stripos($option,'NOJS')!==false);
 //
 function tailer() {
 ?>
+<BR>
+<BR>
 </BODY>
 </HTML>
 <?

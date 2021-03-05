@@ -11,6 +11,7 @@ import (
 	"errors"
 	"flag"
 	"time"
+	"math/rand"
 )
 
 var fjson=flag.String("j","","JSON filename");
@@ -18,6 +19,9 @@ var ftpl=flag.String("t","","Template filename");
 var rm=flag.Bool("X",false,"Remove files after process");
 var rmjonly=flag.Bool("x",false,"Remove json file (only) after process");
 var fMap=template.FuncMap{
+       	"RandId": func() string {
+		return fmt.Sprintf("ID-%d",10000+rand.Intn(89999))
+		},
        	"MB": func(val float64) string {
 		return fmt.Sprintf("%d MB",int(val/1000000))
 		},
