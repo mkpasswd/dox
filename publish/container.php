@@ -17,8 +17,6 @@ $app->header("Container $title");
 <option value="?stderr=true">stderr</option>
 <option value="?stdout=true">stdout</option>
 </select>
-<Button class="LINK MM" data-dest="./containers.php">Containers</button>
-<Button class="LINK MM" data-dest="./images.php">Images</button>
 <!-- <input type="checkbox" id="all">&nbsp;<label for="all">All</label> 
 <input type="checkbox" id="Xview">&nbsp;<label for="Xview">Extended view</label>-->
 </DIV>

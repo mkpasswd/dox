@@ -46,6 +46,12 @@ function tailer() {
 ?>
 <BR>
 <BR>
+<DIV class="BBUNCH">
+<Button class="LINK MM" data-dest="./containers.php">Containers</button>
+<Button class="LINK MM" data-dest="./images.php">Images</button>
+<Button class="LINK MM" data-dest="./volumes.php">Volumes</button>
+<Button class="LINK MM" data-dest="./version.php">Version</button>
+</DIV>
 </BODY>
 </HTML>
 <?

@@ -21,6 +21,9 @@ function ttify(path,tplid,destid,endfunc) {
 				// console.log('Call endfunc');
 				endfunc();
 				};
+			$(destid+" TH.TSORT").each(function() {
+				$(this).append('<SPAN class="ui-icon ui-icon-circle-arrow-s">s</SPAN>');
+				});
 			$(destid).slideDown(300);
 			});
 		},'html');
