@@ -26,7 +26,7 @@ $app->header('Containers');
 	{{ $name }}
 	{{end}}
 	</A></TD>
-	<TD class="X" data-sort="{{ $c.Image }}"><A href="./image.php?id={{ $c.ImageID }}">{{ printf "%.20s" $c.Image }}</A></TD>
+	<TD class="X" data-sort="{{ $c.Image }}"><A href="./image.php?id={{ $c.ImageID }}&title={{$c.Image}}">{{ printf "%.20s" $c.Image }}</A></TD>
 	<TD data-sort="{{ $c.State }}">{{ $c.State }}</TD>
 	<TD class="X">{{ $c.Status }}</TD>
 	<TD class="X">{{ $c.NetworkSettings.Networks.bridge.IPAddress }}</TD>

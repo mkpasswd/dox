@@ -12,9 +12,11 @@ TEXTAREA.POP {
 	/* margin-right: 10%; */
 	min-height: 300px;
 	}
+/*
 .TSORT:before {
 	content: "<TH>YO !</TH>";
 	}
+*/
 TABLE.DEFSHOW .X {display: none;} 
 TABLE.DEFSHOW {border-collapse: collapse;
 	margin-right: auto;
