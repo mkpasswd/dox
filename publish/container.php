@@ -30,7 +30,7 @@ $app->header("Container $title");
 <template id="inspectView">
 	<FIELDSET class="fset">
 	<LABEL>Name&nbsp;:</LABEL>{{ $.Name }}<BR>
-	<LABEL>Image&nbsp;:</LABEL><A href="./image.php?id={{ $.Image }}">{{ printf "%.20s" $.Image }}&hellip;</A><BR>
+	<LABEL>Image&nbsp;:</LABEL><A href="./image.php?id={{ $.Image }}">{{Ellipsify $.Image }}</A><BR>
 	<LABEL>Status&nbsp;:</LABEL>{{ $.State.Status }}<BR>
 	<LABEL>RestartPolicy&nbsp;:</LABEL>{{ $.HostConfig.RestartPolicy.Name }}<BR>
 	<LABEL>Mounts&nbsp;:</LABEL><DIV>

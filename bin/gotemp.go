@@ -19,6 +19,17 @@ var ftpl=flag.String("t","","Template filename");
 var rm=flag.Bool("X",false,"Remove files after process");
 var rmjonly=flag.Bool("x",false,"Remove json file (only) after process");
 var fMap=template.FuncMap{
+       	"Trunc10": func(val string) string {
+		return fmt.Sprintf("%.10s",val);
+		},
+       	"Shortify": func(val string) string {
+		if(len(val)<=20) {return val};
+		return fmt.Sprintf("%.17s",val)
+		},
+       	"Ellipsify": func(val string) string {
+		if(len(val)<=20) {return val};
+		return fmt.Sprintf("%.17s...",val)
+		},
        	"RandId": func() string {
 		return fmt.Sprintf("ID-%d",10000+rand.Intn(89999))
 		},

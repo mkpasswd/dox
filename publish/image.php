@@ -16,7 +16,7 @@ $app->header("Image $title");
 		{{$tag}}<BR>
 	{{end}}</DIV><BR>
 	<LABEL>Comment&nbsp;:</LABEL>{{ $.Comment }}<BR>
-	<LABEL>Created&nbsp;:</LABEL>{{ printf "%.10s" $.Created }}<BR>
+	<LABEL>Created&nbsp;:</LABEL>{{ Trunc10 $.Created }}<BR>
 	<LABEL>ExposedPorts&nbsp;:</LABEL>
 	{{range $key, $port := .ContainerConfig.ExposedPorts }}
 		{{$key}}

@@ -14,7 +14,7 @@ $app->header("Volume $title");
 	<LABEL>Name&nbsp;:</LABEL>{{ $.Name }}<BR>
 	<LABEL>Driver&nbsp;:</LABEL>{{ $.Driver }}<BR>
 	<LABEL>Scope&nbsp;:</LABEL>{{ $.Scope }}<BR>
-	<LABEL>CreatedAt&nbsp;:</LABEL>{{ printf "%.10s" $.CreatedAt }}<BR>
+	<LABEL>CreatedAt&nbsp;:</LABEL>{{ Trunc10 $.CreatedAt }}<BR>
 	<!-- .Options and .Labels to be dealed with -->
 	</FIELDSET>
 </template>

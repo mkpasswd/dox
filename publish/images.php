@@ -13,7 +13,7 @@ $app->header('Images');
 	<TR>
 	<TD class="name" data-sort="{{ index $c.RepoTags 0 }}"><A href="./image.php?id={{$c.Id}}">
 	{{range $name := $c.RepoTags }}
-	{{ $name }} <BR>
+	{{Ellipsify $name }} <BR>
 	{{end}}
 	</A></TD>
 	<TD data-sort="{{ TSShort $c.Created }}">{{ TSDate $c.Created }}</A></TD>

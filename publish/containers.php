@@ -26,7 +26,7 @@ $app->header('Containers');
 	{{ $name }}
 	{{end}}
 	</A></TD>
-	<TD class="X" data-sort="{{ $c.Image }}"><A href="./image.php?id={{ $c.ImageID }}&title={{$c.Image}}">{{ printf "%.20s" $c.Image }}</A></TD>
+	<TD class="X" data-sort="{{ $c.Image }}"><A href="./image.php?id={{ $c.ImageID }}&title={{$c.Image}}">{{Ellipsify $c.Image }}</A></TD>
 	<TD data-sort="{{ $c.State }}">{{ $c.State }}</TD>
 	<TD class="X">{{ $c.Status }}</TD>
 	<TD class="X">{{ $c.NetworkSettings.Networks.bridge.IPAddress }}</TD>
@@ -45,13 +45,9 @@ $app->header('Containers');
 	<TD>
 	{{range $mount := $c.Mounts }}
 		{{if eq $mount.Type "bind" }}
-		<SPAN title="{{ $mount.Destination }}">{{ printf "%.20s" $mount.Source }}</SPAN> (host)<br>
+		<SPAN title="{{ $mount.Destination }}">{{Ellipsify $mount.Source }}</SPAN> (host)<br>
 		{{else}}
-			{{ if gt (len $mount.Name) 30 }}
-			<A title="{{ $mount.Destination }}" href="./volume.php?id={{$mount.Name}}&title={{$mount.Name}}">{{printf "%.20s" $mount.Name}}&hellip;</A><br>
-			{{else}}
-			<A title="{{ $mount.Destination }}" href="./volume.php?id={{$mount.Name}}&title={{$mount.Name}}">{{$mount.Name }}</A><br>
-			{{end}}
+		<A title="{{ $mount.Destination }}" href="./volume.php?id={{$mount.Name}}&title={{Ellipsify $mount.Name}}">{{Ellipsify $mount.Name}}</A><br>
 		{{end}}
 	{{end}}
 	</TD>
