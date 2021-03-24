@@ -94,8 +94,18 @@ function tafit() {
 	}
 */
 
+function scrollBot() {
+	var szone=$('#insertHere TEXTAREA');
+	if(szone.length) {
+		// szone=szone.first();
+		// console.log('YO length');
+		// console.log(szone[0].scrollHeight+'   '+szone.height());
+		szone.scrollTop(szone[0].scrollHeight-szone.height());
+		};
+	}
+
 $(function() {	
-	$('#logs').click(function() {dcall('/containers/'+cid+'/logs'+$('#tlog').val(),'#insertHere');});
+	$('#logs').click(function() {dcall('/containers/'+cid+'/logs'+$('#tlog').val(),'#insertHere',scrollBot);});
 	$('#inspect').click(function() {render('/containers/'+cid+'/json','#inspectView');});
 	$('#top').click(function() {render('/containers/'+cid+'/top','#topView');});
 

@@ -32,18 +32,19 @@ function ttify(path,tplid,destid,endfunc) {
 //Direct call to WS Proxy, supposed to get plain stream output
 function dcall(path,destid,endfunc) {
 	var ws='<?=SITE?>/dox'+path;
-	console.log('dscall WS '+ws);
+	// console.log('dscall WS '+ws);
 	$.post(ws,{},function(res) {
 		// console.log(destid+' REPONSE '+res);
 		// $(destid).html(res);
 		//traitement d'erreur à prévoir
 		$(destid).slideUp(100,function() {
 			$(destid).html('<TEXTAREA class="POP">'+res+'</TEXTAREA>');
-			if(typeof endfunc=='function') {
-				// console.log('Call endfunc');
-				endfunc();
-				};
-			$(destid).slideDown(300);
+			$(destid).slideDown(300,function() {
+				if(typeof endfunc=='function') {
+					console.log('Call endfunc');
+					endfunc();
+					};
+				});
 			});
 		},'text');
 	}
