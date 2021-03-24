@@ -38,7 +38,7 @@ $app->header("Container $title");
 		{{if eq $mount.Type "bind" }}
 		<SPAN title="{{ $mount.Destination }}">{{ $mount.Source }}</SPAN> (host)<br>
 		{{else}}
-		<SPAN title="{{ $mount.Destination }}">{{ $mount.Name }}</SPAN><br>
+		<A title="{{ $mount.Destination }}" href="./volume.php?id={{$mount.Name}}&title={{$mount.Name}}">{{$mount.Name}}</A>
 		{{end}}
 	{{end}}
 	</DIV><BR>

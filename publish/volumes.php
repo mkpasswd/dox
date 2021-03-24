@@ -12,9 +12,9 @@ $app->header('Volumes');
 	<!-- {{range $v := .Volumes }}-->
 	<TR>
 	<!-- {{ if gt (len $v.Name) 30 }} -->
-		<TD class="name" title="{{$v.Name}}" data-sort="zzzzz-{{$v.Name}}">{{ printf "%.20s&hellip;" $v.Name }}</TD>
+		<TD class="name" title="{{$v.Name}}" data-sort="zzzzz-{{$v.Name}}"><A href="./volume.php?id={{$v.Name}}&title={{$v.Name}}">{{printf "%.20s" $v.Name}}&hellip;</A></TD>
 	<!-- {{else}} -->
-		<TD class="name">{{ $v.Name }}</TD>
+		<TD class="name"><A href="./volume.php?id={{$v.Name}}&title={{$v.Name}}">{{ $v.Name }}</A></TD>
 	<!-- {{end}} -->
 	<TD data-sort="{{ $v.CreatedAt }}">{{ printf "%.10s" $v.CreatedAt }}</A></TD>
 	</TR>

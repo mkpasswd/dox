@@ -47,7 +47,11 @@ $app->header('Containers');
 		{{if eq $mount.Type "bind" }}
 		<SPAN title="{{ $mount.Destination }}">{{ printf "%.20s" $mount.Source }}</SPAN> (host)<br>
 		{{else}}
-		<SPAN title="{{ $mount.Destination }}">{{ printf "%.20s" $mount.Name }}</SPAN><br>
+			{{ if gt (len $mount.Name) 30 }}
+			<A title="{{ $mount.Destination }}" href="./volume.php?id={{$mount.Name}}&title={{$mount.Name}}">{{printf "%.20s" $mount.Name}}&hellip;</A><br>
+			{{else}}
+			<A title="{{ $mount.Destination }}" href="./volume.php?id={{$mount.Name}}&title={{$mount.Name}}">{{$mount.Name }}</A><br>
+			{{end}}
 		{{end}}
 	{{end}}
 	</TD>
