@@ -5,7 +5,7 @@ title: dox
 ##abstract: "Docker API proxy : allow filtered (regexp) access to Docker API thru docker.sock + GUI with HTML embedded GO templates"
 geometry: a4paper
 header-includes: |
-	\usepackage{fourier}
+    \usepackage{fourier}
 ---
 # DOX 
 
