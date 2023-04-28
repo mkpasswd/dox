@@ -1,5 +1,5 @@
 #!/bin/bash
-BDIR='/rrs.fs/apps/dockerlogs/bin'
+BDIR=`dirname $BASH_SOURCE`
 CIDR='[A-Za-z0-9_-]+'
 ##ALLOWED=( '^/containers/json'
 ##	'^/version$'
@@ -17,6 +17,11 @@ HOST='localhost'
 CURL='/usr/bin/curl'
 DEMUX="$BDIR/demux"
 URL='http://'
+
+## override eventuel, local-conf.sh  est dans le .gitignore
+if [[ -f "$BDIR/local-conf.sh" ]] ; then
+	. "$BDIR/local-conf.sh"
+	fi	
 
 ## =======================================
 ## Initialisation tableau regexp
