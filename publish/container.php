@@ -10,6 +10,7 @@ $app->header("Container $title");
 <Button id="inspect">Inspect</button>
 <!-- <Button id="stats">Stats</button> -->
 <Button id="top">Top</button>
+&mdash;
 <Button id="logs">Logs</button>
 <Select id="tlog">
 <option value="?stderr=true&stdout=true&tail=100">last 100</option>
@@ -17,6 +18,7 @@ $app->header("Container $title");
 <option value="?stderr=true">stderr</option>
 <option value="?stdout=true">stdout</option>
 </select>
+<INPUT type="checkbox" id="wts" value="&timestamps=true"><label for="wts"><small>&plus;ts</small></label>
 <!-- <input type="checkbox" id="all">&nbsp;<label for="all">All</label> 
 <input type="checkbox" id="Xview">&nbsp;<label for="Xview">Extended view</label>-->
 </DIV>
@@ -105,12 +107,16 @@ function scrollBot() {
 	}
 
 $(function() {	
-	$('#logs').click(function() {dcall('/containers/'+cid+'/logs'+$('#tlog').val(),'#insertHere',scrollBot);});
+	$('#logs').click(function() {
+		var wts=($('#wts').is(':checked'))? $('#wts').val():'';
+		dcall('/containers/'+cid+'/logs'+$('#tlog').val()+wts,'#insertHere',scrollBot);
+		});
 	$('#inspect').click(function() {render('/containers/'+cid+'/json','#inspectView');});
 	$('#top').click(function() {render('/containers/'+cid+'/top','#topView');});
 
 	render('/containers/'+cid+'/json','#inspectView');
 
-	});
+});
+
 </SCRIPT>
 <?$app->tailer();?>
